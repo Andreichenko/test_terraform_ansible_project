@@ -57,7 +57,7 @@ resource "aws_vpc" "common_vpc" {
   enable_dns_hostnames = true
   enable_dns_support = true
 
-  tags{
+  tags = {
     Name = "common_vpc"
   }
 }
@@ -67,7 +67,7 @@ resource "aws_vpc" "common_vpc" {
 resource "aws_internet_gateway" "common_internet_gateway" {
   vpc_id = aws_vpc.common_vpc.id
 
-  tags{
+  tags = {
     Name = "common_internet_gateway"
   }
 }
