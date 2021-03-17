@@ -50,4 +50,47 @@ resource "aws_iam_role" "s3_access_role" {
 EOF
 }
 
+#VPC
 
+resource "aws_vpc" "common_vpc" {
+  cidr_block = "${var.vpc_cidr}"
+  enable_dns_hostnames = true
+  enable_dns_support = true
+
+  tags{
+    Name = "common_vpc"
+  }
+}
+
+# Gateway
+
+resource "aws_internet_gateway" "common_internet_gateway" {
+  vpc_id = aws_vpc.common_vpc.id
+
+  tags{
+    Name = "common_internet_gateway"
+  }
+}
+
+#Route Tables
+
+resource "aws_route_table" "common_route_table" {
+  vpc_id = aws_vpc.common_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.common_internet_gateway.id}"
+  }
+
+  tags = {
+    Name = "common_route_public"
+  }
+}
+
+resource "aws_default_route_table" "common_private_route_table" {
+  default_route_table_id = "${aws_vpc.common_vpc.default_route_table_id}"
+
+  tags = {
+    Name = "common_private_route"
+  }
+}
