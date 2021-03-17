@@ -4,5 +4,5 @@ variable "aws_region" {
 
 variable "aws_profile" {}
 
-data "aws_availability_zones" "newzone" {}
+#data "aws_availability_zones" "newzone" {}
 variable "vpc_cidr" {}
