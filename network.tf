@@ -54,12 +54,6 @@ resource "aws_internet_gateway" "internet-gateway-worker" {
 data "aws_availability_zones" "azs" {
   provider = aws.region-common
   state = "available"
-  tags    = {
-    Name                = "Common Azs"
-    Owner               = "Aleksandr Andreichenko"
-    Environmet          = "Dev-Test"
-    Region              = "us-east-1"
-  }
 }
 
 #Create subnet for common VPC
