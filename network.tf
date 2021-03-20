@@ -117,7 +117,7 @@ resource "aws_route_table" "internet_route" {
   vpc_id = aws_vpc.vpc_common.id
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.internet-gateway-common
+    gateway_id = aws_internet_gateway.internet-gateway-common.id
   }
   route {
     cidr_block = "192.168.1.0/24"
