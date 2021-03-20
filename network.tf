@@ -105,7 +105,7 @@ resource "aws_vpc_peering_connection" "east-west" {
 }
 
 #Accept VPC peering request in west to east
-resource "aws_vpc_peering_connection_accepter" "" {
+resource "aws_vpc_peering_connection_accepter" "accept_peering" {
  provider = aws.region-worker
   auto_accept = true
   vpc_peering_connection_id = aws_vpc_peering_connection.east-west.id
