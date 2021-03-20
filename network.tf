@@ -82,3 +82,19 @@ resource "aws_subnet" "common_subnet_secondary" {
     Region              = "us-east-1"
   }
 }
+
+
+
+
+
+resource "aws_subnet" "worker_subnet" {
+  provider = aws.region-worker
+  cidr_block = "192.168.1.0/24"
+  vpc_id = aws_vpc.vpc_common_oregon.id
+  tags    = {
+    Name                = "Worker subnet"
+    Owner               = "Aleksandr Andreichenko"
+    Environmet          = "Dev-Test"
+    Region              = "us-west-2"
+  }
+}
