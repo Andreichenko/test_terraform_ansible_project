@@ -30,7 +30,7 @@ resource "aws_vpc" "vpc_common_oregon" {
 
 #Create Internet Gateway in us-east-1
 resource "aws_internet_gateway" "internet-gateway-common" {
-  provider              = var.region-common
+  provider              = aws.region-common
   vpc_id                = aws_vpc.vpc_common.id
   tags    = {
     Name                = "Common IGW"
@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "internet-gateway-common" {
 }
 #Create Internet Gateway in us-west-2
 resource "aws_internet_gateway" "internet-gateway-worker" {
-  provider              = var.region-worker
+  provider              = aws.region-worker
   vpc_id                = aws_vpc.vpc_common_oregon.id
   tags    = {
     Name                = "Worker IGW"
@@ -52,4 +52,15 @@ resource "aws_internet_gateway" "internet-gateway-worker" {
 }
 
 #Get all available AZ's in VPC for common
+data "aws_availability_zones" "azs" {
+  provider = aws.region-common
+  state = "available"
+}
 
+#Create subnet for common VPC
+resource "aws_subnet" "common_subnet" {
+  provider = aws.region-common
+  cidr_block = "10.0.1.0/24"
+  availability_zone = element(data.aws_availability_zones.azs.names, 0)
+  vpc_id = aws_vpc.vpc_common.id
+}
