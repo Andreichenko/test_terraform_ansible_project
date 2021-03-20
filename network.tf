@@ -127,9 +127,33 @@ resource "aws_route_table" "internet_route" {
     ignore_changes = all
   }
   tags = {
-    Name = "Common-Worker-Route-table"
+    Name = "Common-Regionr-Route-table"
   }
 }
 
+#Owerwrite default route table of VPC common with our route table entries
+resource "aws_main_route_table_association" "set-common-worker-route-table-associate" {
+  route_table_id = aws_route_table.internet_route.id
+  vpc_id = aws_vpc.vpc_common.id
+  provider = aws.region-common
+}
 
-
+#Create route table in west
+resource "aws_route_table" "internet_route_oregon" {
+  vpc_id = aws_vpc.vpc_common_oregon.id
+  provider = aws.region-worker
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet-gateway-worker.id
+  }
+  route {
+    cidr_block = "10.0.1.0/24"
+    vpc_peering_connection_id = aws_vpc_peering_connection.east-west.id
+  }
+  lifecycle {
+    ignore_changes = all
+  }
+  tags = {
+    Name = "worker-region-route-table"
+  }
+}
