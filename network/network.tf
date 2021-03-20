@@ -10,6 +10,7 @@ resource "aws_vpc" "vpc_common" {
     Environment         = "Dev-Test"
     Region              = "us-east-1"
   }
+  source = ""
 }
 
 #Creating VPC for us-west-2
