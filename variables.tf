@@ -1,10 +1,10 @@
 variable "profile" {
-  type        = "string"
+  type        = string
   default     = "default"
 }
 
 variable "region-common" {
-  type =      "string"
+  type =      string
   default =   "us-east-1"
 }
 
