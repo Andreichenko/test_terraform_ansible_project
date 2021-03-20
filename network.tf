@@ -57,13 +57,26 @@ data "aws_availability_zones" "azs" {
 }
 
 #Create subnet for common VPC
-resource "aws_subnet" "common_subnet" {
+resource "aws_subnet" "common_subnet_primary" {
   provider = aws.region-common
   cidr_block = "10.0.1.0/24"
   availability_zone = element(data.aws_availability_zones.azs.names, 0)
   vpc_id = aws_vpc.vpc_common.id
   tags    = {
-    Name                = "Common subnet"
+    Name                = "Common subnet primary"
+    Owner               = "Aleksandr Andreichenko"
+    Environmet          = "Dev-Test"
+    Region              = "us-east-1"
+  }
+}
+
+resource "aws_subnet" "common_subnet_secondary" {
+  cidr_block = "10.0.2.0/24"
+  vpc_id = aws_vpc.vpc_common.id
+  provider = aws.region-common
+  availability_zone = element(data.aws_availability_zones.azs.names, 1)
+  tags    = {
+    Name                = "Common subnet secondary"
     Owner               = "Aleksandr Andreichenko"
     Environmet          = "Dev-Test"
     Region              = "us-east-1"
