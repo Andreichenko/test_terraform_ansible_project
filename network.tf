@@ -83,10 +83,7 @@ resource "aws_subnet" "common_subnet_secondary" {
   }
 }
 
-
-
-
-
+#Create worker subnet for us-west-2
 resource "aws_subnet" "worker_subnet" {
   provider = aws.region-worker
   cidr_block = "192.168.1.0/24"
@@ -98,3 +95,41 @@ resource "aws_subnet" "worker_subnet" {
     Region              = "us-west-2"
   }
 }
+
+#Create and Initiate peering connection request from us-east-1
+resource "aws_vpc_peering_connection" "east-west" {
+  peer_vpc_id = aws_vpc.vpc_common_oregon.id
+  vpc_id = aws_vpc.vpc_common.id
+  provider = aws.region-common
+  peer_region = var.region-worker
+}
+
+#Accept VPC peering request in west to east
+resource "aws_vpc_peering_connection_accepter" "" {
+ provider = aws.region-worker
+  auto_accept = true
+  vpc_peering_connection_id = aws_vpc_peering_connection.east-west.id
+}
+
+#Create root table in east
+resource "aws_route_table" "internet_route" {
+  provider = aws.region-common
+  vpc_id = aws_vpc.vpc_common.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet-gateway-worker.id
+  }
+  route {
+    cidr_block = "192.168.1.0/24"
+    vpc_peering_connection_id = aws_vpc_peering_connection.east-west.id
+  }
+  lifecycle {
+    ignore_changes = all
+  }
+  tags = {
+    Name = "Common-Worker-Route-table"
+  }
+}
+
+
+
