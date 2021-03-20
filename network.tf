@@ -157,3 +157,10 @@ resource "aws_route_table" "internet_route_oregon" {
     Name = "worker-region-route-table"
   }
 }
+
+#Owerwrite default route table of VPC worker with our route table entries
+resource "aws_main_route_table_association" "set-worker-default-route-table-associate" {
+  route_table_id = aws_route_table.internet_route_oregon.id
+  vpc_id = aws_vpc.vpc_common_oregon
+  provider = aws.region-worker
+}
