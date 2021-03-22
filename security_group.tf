@@ -31,3 +31,27 @@ resource "aws_security_group" "elb-sg" {
 }
 
 #Create SG for allowing TCP/8080 from all and tcp/22 from some ip in us-east-1
+resource "aws_security_group" "jenkins-sg" {
+  provider = aws.region-worker
+  name = "jenkins-sg"
+  description = "Allow tcp/8080 tcp/22"
+  vpc_id = aws_vpc.vpc_common.id
+  ingress {
+    description = ""
+    from_port = 0
+    protocol = ""
+    to_port = 0
+  }
+  ingress {
+    description = ""
+    from_port = 0
+    protocol = ""
+    to_port = 0
+  }
+  ingress {
+    description = "allow traffic from us-west-2"
+    from_port = 0
+    protocol = ""
+    to_port = 0
+  }
+}
