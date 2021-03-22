@@ -26,7 +26,6 @@ resource "aws_vpc" "vpc_common_oregon" {
   }
 }
 
-
 #Create Internet Gateway in us-east-1
 resource "aws_internet_gateway" "internet-gateway-common" {
   provider              = aws.region-common
@@ -38,6 +37,7 @@ resource "aws_internet_gateway" "internet-gateway-common" {
     Region              = "us-east-1"
   }
 }
+
 #Create Internet Gateway in us-west-2
 resource "aws_internet_gateway" "internet-gateway-worker" {
   provider              = aws.region-worker
