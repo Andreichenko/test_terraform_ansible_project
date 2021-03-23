@@ -37,21 +37,30 @@ resource "aws_security_group" "jenkins-sg" {
   description = "Allow tcp/8080 tcp/22"
   vpc_id = aws_vpc.vpc_common.id
   ingress {
-    description = ""
-    from_port = 0
-    protocol = ""
-    to_port = 0
+    description = "Allow 22 from our public IP"
+    from_port = 22
+    protocol = "tcp"
+    to_port = 22
+    cidr_blocks = [var.external_ip]
   }
   ingress {
-    description = ""
-    from_port = 0
-    protocol = ""
-    to_port = 0
+    description = "Allow anyone on port 8080"
+    from_port = 8080
+    protocol = "tcp"
+    to_port = 8080
+    security_groups = [aws_security_group.elb-sg.id]
   }
   ingress {
     description = "allow traffic from us-west-2"
     from_port = 0
-    protocol = ""
+    protocol = "-1"
     to_port = 0
+    cidr_blocks = ["192.168.1.0/24"]
+  }
+  egress {
+    from_port = 0
+    protocol = "-1"
+    to_port = 0
+    cidr_blocks = [0.0.0.0/0]
   }
 }
