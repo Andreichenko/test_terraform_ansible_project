@@ -84,7 +84,7 @@ resource "aws_security_group" "jenkins-sg-oregon" {
     protocol = "-1"
     to_port = 0
     description = "allow all traffic from us-east-1"
-    cidr_blocks = [10.0.1.0/24]
+    cidr_blocks = [10.0.0.0/24]
   }
   egress {
     from_port = 0
