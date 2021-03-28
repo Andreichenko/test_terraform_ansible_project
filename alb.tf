@@ -5,7 +5,7 @@ resource "aws_lb" "application_load_balancer" {
   internal = false
   load_balancer_type = "application"
   security_groups = [aws_security_group.elb-sg.id]
-  subnets = [aws_subnet.common_subnet_primary, aws_subnet.common_subnet_secondary]
+  subnets = [aws_subnet.common_subnet_primary.id, aws_subnet.common_subnet_secondary.id]
   tags = {
     Name = "Jenkins_ALB"
   }
