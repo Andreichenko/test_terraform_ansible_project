@@ -1,7 +1,7 @@
 #Create DNS configuration
 resource "aws_route53_zone" "dns_name" {
   provider = aws.region-common
-  name = var.dns-name
+  name = var.dnsname
 }
 
 #create record in hosted zone for acm certificate domain verification
@@ -18,13 +18,13 @@ resource "aws_route53_record" "cert_validation" {
   type = each.value.type
   records = [each.value.record]
   ttl = 60
-  zone_id = data.aws_route53_zone.dns_name.zone_id
+  zone_id = aws_route53_zone.dns_name.zone_id
 }
 
 #Create alias record towards ALB from route53
 resource "aws_route53_record" "jenkins" {
   provider = aws.region-common
-  name     = join(".", ["jenkins", var.dns-name])
+  name     = join(".", ["jenkins", var.dnsname])
   type = "A"
   zone_id = aws_route53_zone.dns_name.zone_id
   alias {

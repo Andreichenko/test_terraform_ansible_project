@@ -1,7 +1,7 @@
 #ACM configuration for https certificate
 resource "aws_acm_certificate" "jenkins-lb-https" {
   provider = aws.region-common
-  domain_name       = join(".", ["jenkins", var.dns-name])
+  domain_name       = join(".", ["jenkins", var.dnsname])
   validation_method = "DNS"
   tags = {
     Name = "Jenkins-ACM"
