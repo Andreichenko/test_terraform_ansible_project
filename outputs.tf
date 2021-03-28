@@ -37,3 +37,8 @@ output "load_balancer_dns-name" {
   value = aws_lb.application_load_balancer.dns_name
 }
 
+#route 53 DNS name
+output "dns" {
+  value = aws_route53_record.jenkins.fqdn
+}
+
