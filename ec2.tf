@@ -36,7 +36,7 @@ resource "aws_instance" "jenkins-master-node" {
   subnet_id = aws_subnet.common_subnet_primary.id
 
   tags = {
-    Name = "Jenkins-master"
+    Name = "jenkins_master"
   }
   depends_on = [aws_main_route_table_association.set-common-worker-route-table-associate]
 
