@@ -22,7 +22,7 @@ resource "aws_key_pair" "common-key" {
 resource "aws_key_pair" "worker-key" {
   provider = aws.region-common
   public_key = file("~/.ssh/id_rsa.pub")
-  key_name = "jenkins"
+  key_name = "jenkins-key-worker"
 }
 
 #create and bootstrap ec2 in us-east-1
@@ -47,7 +47,7 @@ resource "aws_instance" "jenkins-worker-node" {
   count = var.workers-count
   ami = data.aws_ssm_parameter.linuxAMI-us-west-2.value
   instance_type = var.instance_type
-  key_name = aws_key_pair.common-key.key_name
+  key_name = aws_key_pair.worker-key.key_name
   associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.jenkins-sg-oregon.id]
   subnet_id = aws_subnet.worker_subnet.id
