@@ -28,4 +28,9 @@ variable "workers-count" {
   default = 1
 }
 
+variable "webserver-port" {
+  type = number
+  default = 80
+}
+
 

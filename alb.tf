@@ -10,3 +10,23 @@ resource "aws_alb" "application_load_balancer" {
     Name = "Jenkins_ALB"
   }
 }
+
+resource "aws_lb_target_group" "app-lb-tg" {
+  provider = aws.region-common
+  name = "app-lb-tg"
+  port = var.webserver-port
+  target_type = "instance"
+  vpc_id = aws_vpc.vpc_common.id
+  protocol = "HTTP"
+  health_check {
+    enabled = true
+    interval = 10
+    path = "/"
+    port = var.webserver-port
+    protocol = "HTTP"
+    matcher = "200-299"
+  }
+  tags = {
+    Name = "jenkins_target_group"
+  }
+}
