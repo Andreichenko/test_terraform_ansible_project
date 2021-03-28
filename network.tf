@@ -154,7 +154,7 @@ resource "aws_route_table" "internet_route_oregon" {
     ignore_changes = all
   }
   tags = {
-    Name = "worker-region-route-table"
+    Name                      = "worker-region-route-table"
   }
 }
 
