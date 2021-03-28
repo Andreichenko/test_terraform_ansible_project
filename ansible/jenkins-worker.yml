@@ -2,8 +2,8 @@
 
 - hosts: "{{ hosts }}"
   become: yes
-  become_user: ec2-user
-  become_root: root
+  remote_user: ec2-user
+  become_user: root
   tasks:
     - name: 'Install JQ parser'
       yum:
