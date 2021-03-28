@@ -20,7 +20,7 @@ resource "aws_key_pair" "common-key" {
 
 #create key-pair for logging into EC2 in us-west-2
 resource "aws_key_pair" "worker-key" {
-  provider = aws.region-common
+  provider = aws.region-worker
   public_key = file("~/.ssh/id_rsa.pub")
   key_name = "jenkins-key-worker"
 }
