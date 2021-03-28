@@ -1,7 +1,7 @@
 #create ALB for jenkins application
 resource "aws_lb" "application_load_balancer" {
   provider = aws.region-common
-  name = "jenkins-application-load-balancer"
+  name = "jenkins-alb"
   internal = false
   load_balancer_type = "application"
   security_groups = [aws_security_group.elb-sg.id]
