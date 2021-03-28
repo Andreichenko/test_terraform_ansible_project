@@ -1,5 +1,5 @@
 #Create DNS configuration
-resource "aws_route53_zone" "dns" {
+resource "aws_route53_zone" "dns_name" {
   provider = aws.region-common
   name = var.dns-name
 }
@@ -18,7 +18,7 @@ resource "aws_route53_record" "cert_validation" {
   type = each.value.type
   records = [each.value.record]
   ttl = 60
-  zone_id = data.aws_route53_zone.dns.zone_id
+  zone_id = data.aws_route53_zone.dns_name.zone_id
 }
 
 #Create alias record towards ALB from route53
@@ -26,7 +26,7 @@ resource "aws_route53_record" "jenkins" {
   provider = aws.region-common
   name     = join(".", ["jenkins", var.dns-name])
   type = "A"
-  zone_id = aws_route53_zone.dns.zone_id
+  zone_id = aws_route53_zone.dns_name.zone_id
   alias {
     evaluate_target_health = true
     name = aws_lb.application_load_balancer.dns_name
