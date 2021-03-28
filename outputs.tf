@@ -21,3 +21,16 @@ output "internet-gateway-worker" {
 output "vpc_common" {
   value = aws_vpc.vpc_common.cidr_block
 }
+
+output "jenkins-master-node-public-ip" {
+  value = aws_instance.jenkins-master-node.public_ip
+}
+
+output "jenkins-worker-node-public-ip" {
+  value = {
+    for instance in aws_instance.jenkins-worker-node :
+        instance.id => instance.public_ip
+  }
+}
+
+
