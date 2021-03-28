@@ -18,4 +18,9 @@ variable "external_ip" {
   default     = "0.0.0.0/0"
 }
 
+variable "instance_type" {
+  type = string
+  default = "t3.micro"
+}
+
 
