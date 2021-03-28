@@ -1,5 +1,5 @@
 #create ALB for jenkins application
-resource "aws_alb" "application_load_balancer" {
+resource "aws_lb" "application_load_balancer" {
   provider = aws.region-common
   name = "jenkins-application-load-balancer"
   internal = false
@@ -10,7 +10,7 @@ resource "aws_alb" "application_load_balancer" {
     Name = "Jenkins_ALB"
   }
 }
-
+#Create target group
 resource "aws_lb_target_group" "app-lb-tg" {
   provider = aws.region-common
   name = "app-lb-tg"
@@ -29,4 +29,21 @@ resource "aws_lb_target_group" "app-lb-tg" {
   tags = {
     Name = "jenkins_target_group"
   }
+}
+resource "aws_lb_listener" "jenkins-listener-http" {
+  provider = aws.region-common
+  load_balancer_arn = aws_lb.application_load_balancer.arn
+  port = 80
+  protocol = "HTTP"
+  default_action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.app-lb-tg.id
+  }
+}
+
+resource "aws_lb_target_group_attachment" "jenkins_master-attachment" {
+  provider = aws.region-common
+  target_group_arn = aws_lb_target_group.app-lb-tg.arn
+  target_id = aws_instance.jenkins-master-node.id
+  port = var.webserver-port
 }

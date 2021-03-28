@@ -32,5 +32,8 @@ output "jenkins-worker-node-public-ip" {
         instance.id => instance.public_ip
   }
 }
-
+#ALB DNS name
+output "load_balancer_dns-name" {
+  value = aws_lb.application_load_balancer.dns_name
+}
 
