@@ -50,7 +50,7 @@ resource "aws_instance" "jenkins-worker-node" {
   key_name = aws_key_pair.common-key.key_name
   associate_public_ip_address = true
   vpc_security_group_ids = [aws_security_group.jenkins-sg-oregon.id]
-  subnet_id = aws_subnet.worker_subnet
+  subnet_id = aws_subnet.worker_subnet.id
 
   tags = {
     Name = join("_",["jenkins_worker", count.index + 1])
