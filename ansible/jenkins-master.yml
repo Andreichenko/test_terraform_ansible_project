@@ -20,3 +20,4 @@
         name: httpd
         status: started
         enabled: yes
+      become: yes
