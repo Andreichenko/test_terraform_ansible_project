@@ -39,6 +39,13 @@ resource "aws_instance" "jenkins-master-node" {
     Name = "Jenkins-master"
   }
   depends_on = [aws_main_route_table_association.set-common-worker-route-table-associate]
+
+  provisioner "local-exec" {
+    command = <<EOF
+aws --profile ${var.profile} ec2 wait instance-status-ok --region ${var.region-common} --instance-ids ${self.id}
+ansible-playbook ansible/jenkins-master.yml -i ansible/inventory/aws_ec2.yml --extra-vars 'hosts=tag_Name_${self.tags.Name}'
+EOF
+  }
 }
 
 #create and bootstrap ec2 in us-west-1
@@ -56,4 +63,11 @@ resource "aws_instance" "jenkins-worker-node" {
     Name = join("_",["jenkins_worker", count.index + 1])
   }
   depends_on = [aws_main_route_table_association.set-worker-default-route-table-associate, aws_instance.jenkins-master-node]
+
+  provisioner "local-exec" {
+    command = <<EOF
+aws --profile ${var.profile} ec2 wait instance-status-ok --region ${var.region-worker} --instance-ids ${self.id}
+ansible-playbook ansible/jenkins-worker.yml -i ansible/inventory/aws_ec2.yml --extra-vars 'hosts=tag_Name_${self.tags.Name}'
+EOF
+  }
 }

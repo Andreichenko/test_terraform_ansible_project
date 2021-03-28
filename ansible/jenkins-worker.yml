@@ -1,0 +1,11 @@
+---
+
+- hosts: "{{ hosts }}"
+  become: yes
+  become_user: ec2-user
+  become_root: root
+  tasks:
+    - name: 'Install JQ parser'
+      yum:
+        name: jq
+        state: present
