@@ -5,19 +5,27 @@
   remote_user: ec2-user
   become_user: root
   tasks:
-    - name: 'Install Git client'
+    - name: 'Install dependencies'
       yum:
-        name: git
+        name: '{{ package }}'
         state: present
+      vars:
+        package:
+          - wget
+          - java-1.8.0-openjdk-devel
+          - git
 
-    - name: 'Install httpd apache'
-      yum:
-        name: httpd
+    - name: 'Clone jenkins files'
+      git:
+        repo: 'https://github.com/Andreichenko/test_terraform_ansible_project.git'
+        dest: '/tmp/jenkins'
+
+    - name: 'Setup Jenkins repo'
+      get_url:
+        url: 'https://pkg.jenkins.io/redhat/jenkins.repo'
+        dest: '/etc/yum.repos.d/jenkins.repo'
+
+    - name: 'Import Jenkins repo GPG key'
+      rpm_key:
         state: present
-
-    - name: 'Start and enable Apache'
-      service:
-        name: httpd
-        state: started
-        enabled: yes
-      become: yes
+        key: 'https://pkg.jenkins.io/redhat/jenkins.io.key'
