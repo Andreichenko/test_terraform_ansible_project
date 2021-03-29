@@ -17,7 +17,7 @@
 
     - name: 'Clone jenkins files'
       git:
-        repo: 'https://github.com/Andreichenko/test_terraform_ansible_project.git'
+        repo: 'https://github.com/Andreichenko/test-ansible-jenkins-deploy.git'
         dest: '/tmp/jenkins'
 
     - name: 'Setup Jenkins repo'
