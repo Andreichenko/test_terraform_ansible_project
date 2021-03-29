@@ -50,3 +50,16 @@
         remote_src: yes
         src: /tmp/jenkins/jenkins
         dest: '/var/lib'
+
+    - name: 'Restore jenkins user ownership on /var/lib/jenkins'
+      file:
+        path: '/var/lib/jenkins'
+        state: directory
+        recurse: yes
+        owner: jenkins
+
+    - name: 'Start Jenkins'
+      service:
+        name: jenkins
+        state: started
+        enabled: yes
