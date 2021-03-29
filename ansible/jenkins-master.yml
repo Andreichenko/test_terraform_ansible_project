@@ -39,3 +39,14 @@
       service:
         name: jenkins
         state: stopped
+
+    - name: 'Delete Jenkins default dir'
+      file:
+        state: absent
+        path: '/var/lib/jenkins'
+
+    - name: 'Copy over cloned jenkins /var/lib/jenkins'
+      copy:
+        remote_src: yes
+        src: /tmp/jenkins/jenkins
+        dest: '/var/lib'
