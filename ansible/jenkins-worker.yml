@@ -65,7 +65,7 @@
 
     - name: 'Place Jenkins Auth file'
       copy:
-        src: jenkins_auth
+        src: "templates/jenkins_auth"
         dest: '/home/ec2-user/'
         owner: ec2-user
         mode: '0600'
