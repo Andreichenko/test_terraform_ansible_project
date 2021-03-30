@@ -62,3 +62,10 @@
       util: download.status_code|default(200) == 200
       retries: 5
       delay: 5
+
+    - name: 'Place Jenkins Auth file'
+      copy:
+        src: jenkins_auth
+        dest: '/home/ec2-user/'
+        owner: ec2-user
+        mode: '0600'
