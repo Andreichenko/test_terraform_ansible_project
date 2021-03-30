@@ -49,3 +49,16 @@
             - wget
             - java-1.8.0-openjdk-devel
             - git
+
+    - name: 'Get and install Jenkins CLI jar file'
+      vars:
+        master: '{{ master_ip }}'
+      get_url:
+        url: 'http://{{ master_ip }}:8080/jnlpJars/jenkins-cli.jar'
+        dest: '/home/ec2-user/jenkins-cli.jar'
+        force: yes
+      register: download
+      ignore_errors: yes
+      util: download.status_code|default(200) == 200
+      retries: 5
+      delay: 5
