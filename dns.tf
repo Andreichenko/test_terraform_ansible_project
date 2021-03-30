@@ -1,5 +1,5 @@
 #Create DNS configuration
-resource "aws_route53_zone" "dns_name" {
+data "aws_route53_zone" "dns_name" {
   provider = aws.region-common
   name = var.dnsname
 }
@@ -18,14 +18,14 @@ resource "aws_route53_record" "cert_validation" {
   records = [each.value.record]
   ttl     = 60
   type    = each.value.type
-  zone_id = data.aws_route53_zone.Z07196473U2JIQIGPE1CQ
+  zone_id = data.aws_route53_zone.dns_name.name
 
 }
 
 #Create alias record towards ALB from route53
 resource "aws_route53_record" "jenkins" {
   provider = aws.region-common
-  name     = join(".", ["jenkins", data.aws_route53_zone.Z07196473U2JIQIGPE1CQ])
+  name     = join(".", ["jenkins", data.aws_route53_zone.dns_name.name])
   type = "A"
   zone_id = aws_route53_zone.dns_name.zone_id
   alias {
