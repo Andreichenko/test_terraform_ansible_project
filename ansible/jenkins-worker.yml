@@ -22,7 +22,7 @@
       vars:
         ipv4: '{{ ansible_default_ipv4.address }}'
       template:
-        src: 'node.j2'
+        src: 'templates/node.j2'
         dest: '/home/ec2-user/node.xml'
         owner: ec2-user
         mode: '0644'
@@ -37,7 +37,7 @@
         private_key: "{{ pkey['content'] | b64decode }}"
         ipv4: '{{ ansible_default_ipv4.address }}'
       template:
-        src: cred-privatekey.j2
+        src: 'templates/cred-privatekey.j2'
         dest: '/home/ec2-user/creds.xml'
 
     - name: 'Install dependencies'
