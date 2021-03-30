@@ -26,3 +26,16 @@
         dest: '/home/ec2-user/node.xml'
         owner: ec2-user
         mode: '0644'
+
+    - name: 'Read generated private key id_rsa'
+      slurp:
+        src: '/home/ec2-user/.ssh/id_rsa'
+      register: pkey
+
+    - name: 'Copy over creds.xml and create Jenkins creds'
+      vars:
+        private_key: "{{ pkey['content'] | b64decode }}"
+        ipv4: '{{ ansible_default_ipv4.address }}'
+      template:
+        src: cred-privatekey.j2
+        dest: '/home/ec2-user/creds.xml'
