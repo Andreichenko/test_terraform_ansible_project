@@ -5,7 +5,7 @@
                              <username>ec2-user</username>
                              <privateKeySource class="com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey$DirectEntryPrivateKeySource">
 	<privateKey>
-	{{ priv_key }}
+	{{ private_key }}
 </privateKey>
 </privateKeySource>
 </com.cloudbees.jenkins.plugins.sshcredentials.impl.BasicSSHUserPrivateKey>
