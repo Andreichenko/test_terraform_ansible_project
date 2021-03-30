@@ -24,7 +24,7 @@ variable "instance_type" {
 }
 
 variable "workers-count" {
-  type = string
+  type = number
   default = 1
 }
 

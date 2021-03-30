@@ -12,13 +12,13 @@ resource "aws_route53_record" "cert_validation" {
     name   = val.resource_record_name
     record = val.resource_record_value
     type   = val.resource_record_type
-  }
+    }
   }
   name    = each.value.name
   records = [each.value.record]
   ttl     = 60
   type    = each.value.type
-  zone_id = data.aws_route53_zone.dns.zone_id
+  zone_id = data.aws_route53_zone.Z07196473U2JIQIGPE1CQ
 
 }
 
