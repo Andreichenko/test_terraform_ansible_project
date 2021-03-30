@@ -39,3 +39,13 @@
       template:
         src: cred-privatekey.j2
         dest: '/home/ec2-user/creds.xml'
+
+    - name: 'Install dependencies'
+        yum:
+          name: '{{ package }}'
+          state: present
+        vars:
+          package:
+            - wget
+            - java-1.8.0-openjdk-devel
+            - git
