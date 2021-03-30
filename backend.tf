@@ -7,8 +7,8 @@ terraform {
     region    = "us-east-1"
     profile   = "default"
     key       = "terraform-state-file"
-    bucket    = "terraform-state-bucket-frei-0007"
+    bucket    = "terraform-state-bucket-frei-0008"
   }
 }
 
-#aws s3api create-bucket --bucket terraform-state-bucket-frei-0007
+#aws s3api create-bucket --bucket terraform-state-bucket-frei-0008
