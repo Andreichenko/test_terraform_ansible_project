@@ -21,7 +21,7 @@ resource "aws_lb_target_group" "app-lb-tg" {
   health_check {
     enabled = true
     interval = 10
-    path = "/"
+    path = "/login"
     port = var.webserver-port
     protocol = "HTTP"
     matcher = "200-299"
@@ -30,6 +30,20 @@ resource "aws_lb_target_group" "app-lb-tg" {
     Name = "jenkins_target_group"
   }
 }
+
+resource "aws_lb_listener" "jenkins-listener-https" {
+  provider = aws.region-common
+  load_balancer_arn = aws_lb.application_load_balancer.arn
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  port = 443
+  protocol = "HTTPS"
+  certificate_arn = aws_acm_certificate.jenkins-lb-https.arn
+  default_action {
+    type = "forward"
+    target_group_arn = aws_lb_target_group.app-lb-tg.arn
+  }
+}
+
 resource "aws_lb_listener" "jenkins-listener-http" {
   provider = aws.region-common
   load_balancer_arn = aws_lb.application_load_balancer.arn
@@ -42,18 +56,6 @@ resource "aws_lb_listener" "jenkins-listener-http" {
       status_code = "HTTP_301"
       protocol = "HTTPS"
     }
-  }
-}
-
-resource "aws_lb_listener" "jenkins-listener-https" {
-  provider = aws.region-common
-  load_balancer_arn = aws_lb.application_load_balancer.arn
-  port = 443
-  protocol = "HTTPS"
-  certificate_arn = aws_acm_certificate.jenkins-lb-https.arn
-  default_action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.app-lb-tg.arn
   }
 }
 
