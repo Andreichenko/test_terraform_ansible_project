@@ -6,7 +6,7 @@ terraform {
   backend "s3" {
     region    = "us-east-1"
     profile   = "default"
-    key       = "terraform-state-file"
+    key       = "terraform-state-file/statefile.tfstate"
     bucket    = "terraform-state-bucket-frei-0008"
   }
 }

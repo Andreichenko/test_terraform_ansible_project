@@ -38,7 +38,7 @@ resource "aws_instance" "jenkins-master-node" {
   tags = {
     Name = "jenkins_master"
   }
-  depends_on = [aws_main_route_table_association.set-common-worker-route-table-associate]
+  depends_on = [aws_main_route_table_association.set-common-worker-rt-associate]
 
   provisioner "local-exec" {
     command = <<EOF
@@ -62,7 +62,7 @@ resource "aws_instance" "jenkins-worker-node" {
   tags = {
     Name = join("_",["jenkins_worker", count.index + 1])
   }
-  depends_on = [aws_main_route_table_association.set-worker-default-route-table-associate, aws_instance.jenkins-master-node]
+  depends_on = [aws_main_route_table_association.set-worker-default-rt-associate, aws_instance.jenkins-master-node]
 
   provisioner "local-exec" {
     command = <<EOF
