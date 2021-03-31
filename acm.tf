@@ -26,7 +26,7 @@ resource "aws_lb" "application-load-balancer" {
   security_groups = [aws_security_group.elb-sg.id]
   subnets = [aws_subnet.common_subnet_primary.id, aws_subnet.common_subnet_secondary.id]
   tags = {
-    Name = "Jenkins_ALB"
+    Name = "Jenkins-ALB"
   }
 }
 #Create target group
