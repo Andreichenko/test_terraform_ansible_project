@@ -26,6 +26,14 @@ resource "aws_vpc" "vpc_common_oregon" {
   }
 }
 
+#Create and Initiate peering connection request from us-east-1
+resource "aws_vpc_peering_connection" "east-west" {
+  peer_vpc_id           = aws_vpc.vpc_common_oregon.id
+  vpc_id                = aws_vpc.vpc_common.id
+  provider              = aws.region-common
+  peer_region           = var.region-worker
+}
+
 #Create Internet Gateway in us-east-1
 resource "aws_internet_gateway" "internet-gateway-common" {
   provider              = aws.region-common
@@ -48,6 +56,40 @@ resource "aws_internet_gateway" "internet-gateway-worker" {
     Owner               = "Aleksandr Andreichenko"
     Environmet          = "Dev-Test"
   }
+}
+
+#Accept VPC peering request in west to east
+resource "aws_vpc_peering_connection_accepter" "accept_peering" {
+  provider                    = aws.region-worker
+  auto_accept                = true
+  vpc_peering_connection_id  = aws_vpc_peering_connection.east-west.id
+}
+
+#Create route table in east
+resource "aws_route_table" "internet_route" {
+  provider = aws.region-common
+  vpc_id = aws_vpc.vpc_common.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.internet-gateway-common.id
+  }
+  route {
+    cidr_block                = "192.168.1.0/24"
+    vpc_peering_connection_id = aws_vpc_peering_connection.east-west.id
+  }
+  lifecycle {
+    ignore_changes = all
+  }
+  tags = {
+    Name = "Common-Regionr-Route-table"
+  }
+}
+
+#Owerwrite default route table of VPC common with our route table entries
+resource "aws_main_route_table_association" "set-common-worker-rt-associate" {
+  route_table_id           = aws_route_table.internet_route.id
+  vpc_id                   = aws_vpc.vpc_common.id
+  provider                 = aws.region-common
 }
 
 #Get all available AZ's in VPC for common
@@ -94,48 +136,6 @@ resource "aws_subnet" "worker_subnet" {
     Environmet          = "Dev-Test"
     Region              = "us-west-2"
   }
-}
-
-#Create and Initiate peering connection request from us-east-1
-resource "aws_vpc_peering_connection" "east-west" {
-  peer_vpc_id           = aws_vpc.vpc_common_oregon.id
-  vpc_id                = aws_vpc.vpc_common.id
-  provider              = aws.region-common
-  peer_region           = var.region-worker
-}
-
-#Accept VPC peering request in west to east
-resource "aws_vpc_peering_connection_accepter" "accept_peering" {
- provider                    = aws.region-worker
-  auto_accept                = true
-  vpc_peering_connection_id  = aws_vpc_peering_connection.east-west.id
-}
-
-#Create root table in east
-resource "aws_route_table" "internet_route" {
-  provider = aws.region-common
-  vpc_id = aws_vpc.vpc_common.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.internet-gateway-common.id
-  }
-  route {
-    cidr_block                = "192.168.1.0/24"
-    vpc_peering_connection_id = aws_vpc_peering_connection.east-west.id
-  }
-  lifecycle {
-    ignore_changes = all
-  }
-  tags = {
-    Name = "Common-Regionr-Route-table"
-  }
-}
-
-#Owerwrite default route table of VPC common with our route table entries
-resource "aws_main_route_table_association" "set-common-worker-rt-associate" {
-  route_table_id           = aws_route_table.internet_route.id
-  vpc_id                   = aws_vpc.vpc_common.id
-  provider                 = aws.region-common
 }
 
 #Create route table in west
