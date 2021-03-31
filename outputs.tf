@@ -34,7 +34,7 @@ output "jenkins-worker-node-public-ip" {
 }
 #ALB DNS name
 output "load_balancer_dns-name" {
-  value = aws_lb.application_load_balancer.dns_name
+  value = aws_lb.application-load-balancer.dns_name
 }
 
 #route 53 DNS name

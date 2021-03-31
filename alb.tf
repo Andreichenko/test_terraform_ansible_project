@@ -1,5 +1,5 @@
 #create ALB for jenkins application
-resource "aws_lb" "application_load_balancer" {
+resource "aws_lb" "application-load-balancer" {
   provider = aws.region-common
   name = "jenkins-alb"
   internal = false
@@ -31,9 +31,9 @@ resource "aws_lb_target_group" "app-lb-tg" {
   }
 }
 
-resource "aws_lb_listener" "jenkins-listener-https" {
+resource "aws_lb_listener" "jenkins-listener" {
   provider = aws.region-common
-  load_balancer_arn = aws_lb.application_load_balancer.arn
+  load_balancer_arn = aws_lb.application-load-balancer.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   port = 443
   protocol = "HTTPS"
@@ -46,7 +46,7 @@ resource "aws_lb_listener" "jenkins-listener-https" {
 
 resource "aws_lb_listener" "jenkins-listener-http" {
   provider = aws.region-common
-  load_balancer_arn = aws_lb.application_load_balancer.arn
+  load_balancer_arn = aws_lb.application-load-balancer.arn
   port = 80
   protocol = "HTTP"
   default_action {
@@ -59,7 +59,7 @@ resource "aws_lb_listener" "jenkins-listener-http" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "jenkins_master-attachment" {
+resource "aws_lb_target_group_attachment" "jenkins-master-attachment" {
   provider = aws.region-common
   target_group_arn = aws_lb_target_group.app-lb-tg.arn
   target_id = aws_instance.jenkins-master-node.id

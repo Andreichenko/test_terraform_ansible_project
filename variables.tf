@@ -33,7 +33,7 @@ variable "webserver-port" {
   default = 8080
 }
 
-variable "dnsname" {
+variable "DNSname" {
   type = string
   default = "cmcloudlab1759.info."
   # aws route53 list-hosted-zones
