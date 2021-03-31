@@ -16,7 +16,7 @@
         owner: ec2-user
 
     - name: 'Add own key to authorized_keys file'
-      shell: 'cat /home/ec2-user/.ssh/id_rsa_pub >> /home/ec2-user/.ssh/authorized_keys && chmod 600 /home/ec2-user/.ssh/authorized_keys'
+      shell: 'cat /home/ec2-user/.ssh/id_rsa.pub >> /home/ec2-user/.ssh/authorized_keys && chmod 600 /home/ec2-user/.ssh/authorized_keys'
 
     - name: 'Copy over Jenkins worker creation payload xml'
       vars:
