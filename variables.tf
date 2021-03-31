@@ -35,7 +35,7 @@ variable "webserver-port" {
 
 variable "DNSname" {
   type = string
-  default = "cmcloudlab694.info."
+  default = "cmcloudlab758.info."
   # aws route53 list-hosted-zones
 }
 
