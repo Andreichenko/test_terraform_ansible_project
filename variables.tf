@@ -1,41 +1,41 @@
 variable "profile" {
-  type        = string
-  default     = "default"
+  type          = string
+  default       = "default"
 }
 
 variable "region-common" {
-  type        = string
-  default     = "us-east-1"
+  type          = string
+  default       = "us-east-1"
 }
 
 variable "region-worker" {
-  type        = string
-  default     = "us-west-2"
+  type          = string
+  default       = "us-west-2"
 }
 
 variable "external_ip" {
-  type        = string
-  default     = "0.0.0.0/0"
+  type          = string
+  default       = "0.0.0.0/0"
 }
 
 variable "instance_type" {
-  type = string
-  default = "t3.micro"
+  type          = string
+  default       = "t3.micro"
 }
 
 variable "workers-count" {
-  type = number
-  default = 1
+  type          = number
+  default       = 1
 }
 
 variable "webserver-port" {
-  type = number
-  default = 8080
+  type          = number
+  default       = 8080
 }
 
 variable "DNSname" {
-  type = string
-  default = "cmcloudlab758.info."
+  type          = string
+  default       = "cmcloudlab758.info."
   # aws route53 list-hosted-zones
 }
 
