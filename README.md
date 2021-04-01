@@ -105,3 +105,45 @@ Full, comprehensive documentation is available on the Terraform website:
 
 https://terraform.io/docs/providers/aws/index.html
 
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.12.0 |
+| aws | >=3.0.0 |
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| aws.region-common | >=3.0.0 |
+| aws.region-worker | >=3.0.0 |
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| DNSname | n/a | `string` | `"cmcloudlab758.info."` | no |
+| external\_ip | n/a | `string` | `"0.0.0.0/0"` | no |
+| instance\_type | n/a | `string` | `"t3.micro"` | no |
+| profile | n/a | `string` | `"default"` | no |
+| region-common | n/a | `string` | `"us-east-1"` | no |
+| region-worker | n/a | `string` | `"us-west-2"` | no |
+| webserver-port | n/a | `number` | `8080` | no |
+| workers-count | n/a | `number` | `1` | no |
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| aws\_common\_subnet\_primary | n/a |
+| aws\_common\_subnet\_secondary | n/a |
+| aws\_worker\_subnet | n/a |
+| dns | route 53 DNS name |
+| internet-gateway-common | n/a |
+| internet-gateway-worker | n/a |
+| jenkins-master-node-public-ip | n/a |
+| jenkins-worker-node-public-ip | n/a |
+| load\_balancer\_dns-name | ALB DNS name |
+| vpc\_common | n/a |
+
